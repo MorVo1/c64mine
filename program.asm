@@ -1,10 +1,23 @@
 ; vim: set filetype=64tass:
 
+; variable constants
 chrout	= $ffd2
-clear	= #$93
 firstch	= $fb
 secch	= $fc
-newline	= #$0d
+; character constants
+clear	= $93
+newline	= $0d
+hori	= $60
+vert	= $7d
+uptack	= $b1
+rghtack	= $ab
+dwntack	= $b2
+lftack	= $b3
+cross	= $7b
+tplftc	= $b0
+tprghtc = $ae
+btlftc	= $ad
+btrghtc	= $bd
 
 *	 = $0801
 	.word (+), 10			; pointer, line number
@@ -12,62 +25,62 @@ newline	= #$0d
 +	.word 0				; end of BASIC program
 
 *	 = $c051
-start	lda clear
+start	lda #clear
 	jsr chrout			; clear the screen
 	lda #$15
 	sta $d018			; set uppercase mode
-	lda #$b0			; top-left corner character
+	lda #tplftc			; top-left corner character
 	jsr chrout			; print it
-	lda #$60			; horizontal line character
+	lda #hori			; horizontal line character
 	sta firstch			; store it in the first character variable
-	lda #$b2			; up tack character
+	lda #dwntack			; down tack character
 	sta secch			; store it in the second character variable
 	ldx #$08
 	jsr alter			; print 8 pairs + 1 of characters specified above
-	lda #$ae			; top-right corner character
+	lda #tprghtc			; top-right corner character
 	jsr chrout			; print it
 	ldy #$08			; Y as the number of loop iterations
-brdloop	lda newline			; '\n' character
+brdloop	lda #newline			; '\n' character
 	jsr chrout			; print it
-	lda #$7d			; vertical line character
+	lda #vert			; vertical line character
 	sta firstch			; store it in the first character variable
 	lda #' '
 	sta secch			; store a space in the second character variable
 	ldx #$09
 	jsr alter			; print 9 pairs + 1 of characters specified above
-	lda newline			; '\n' character
+	lda #newline			; '\n' character
 	jsr chrout			; print it
-	lda #$ab			; right tack character
+	lda #rghtack			; right tack character
 	jsr chrout			; print it
-	lda #$60			; horizontal line character
+	lda #hori			; horizontal line character
 	sta firstch			; store it in the first character variable
-	lda #$7b			; + shaped joint character
+	lda #cross			; + shaped joint character
 	sta secch			; store it in the second character variable
 	ldx #$08
 	jsr alter			; print 8 pairs + 1 of characters specified above
-	lda #$b3			; left tack character
+	lda #lftack			; left tack character
 	jsr chrout			; print it
 	dey
 	bne brdloop			; continue drawing the loop
-	lda newline
+	lda #newline
 	jsr chrout			; print a '\n'
-	lda #$7d			; vertical line character
+	lda #vert			; vertical line character
 	sta firstch			; store it in the first character variable
 	lda #' '
 	sta secch			; store a space in the second character variable
 	ldx #$09
 	jsr alter			; print 9 pairs + 1 of characters specified above
-	lda newline
+	lda #newline
 	jsr chrout			; print a '\n'
-	lda #$ad			; bottom-left corner character
+	lda #btlftc			; bottom-left corner character
 	jsr chrout			; print it
-	lda #$60			; horizontal line character
+	lda #hori			; horizontal line character
 	sta firstch			; store it in the first character variable
-	lda #$b1			; up tack character
+	lda #uptack			; up tack character
 	sta secch			; store it in the second character variable
 	ldx #$08
 	jsr alter			; print 8 pairs + 1 of characters specified above
-	lda #$bd			; bottom-right corner character
+	lda #btrghtc			; bottom-right corner character
 	jsr chrout			; print it
 	rts				; return to BASIC prompt
 alter	cpx #$00			; a subroutine for printing X pairs of characters in firstch and secch succeeded by firstch.
