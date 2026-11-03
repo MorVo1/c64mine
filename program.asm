@@ -6,7 +6,7 @@ firstch	= $fb
 secch	= $fc
 
 *	 = $0801
-	.word (+), 10			; line number
+	.word (+), 10			; pointer, line number
 	.null $9e, format("%4d", start)	; SYS 49152
 +	.word 0				; end of BASIC program
 
@@ -24,10 +24,10 @@ start	lda clear
 					; a subroutine for printing X pairs of characters in firstch and secch
 alter	cpx #$00
 	beq +				; return from subroutine if X=0
-	lda firstch
+-	lda firstch
 	jsr chrout			; print the first character
 	lda secch
 	jsr chrout			; print the second character
 	dex
-	bne alter			; loop
+	bne -				; loop
 +	rts
