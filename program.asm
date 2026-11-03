@@ -8,7 +8,7 @@ newline	= #$0d
 
 *	 = $0801
 	.word (+), 10			; pointer, line number
-	.null $9e, format("%4d", start)	; SYS 49152
+	.null $9e, format("%4d", start)	; SYS 49233
 +	.word 0				; end of BASIC program
 
 *	 = $c051
