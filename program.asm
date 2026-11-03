@@ -91,6 +91,6 @@ alter	cpx #$00			; a subroutine for printing X pairs of characters in firstch an
 	jsr chrout			; print the second character
 	dex
 	bne -				; loop
-	lda firstch
++	lda firstch
 	jsr chrout			; print the first character
-+	rts	
+	rts	
