@@ -1,6 +1,6 @@
 ; vim: set filetype=64tass:
 
-; variable constants
+; variable adresses
 chrout	= $ffd2
 firstch	= $fb
 secch	= $fc
@@ -18,6 +18,7 @@ tplftc	= $b0
 tprghtc = $ae
 btlftc	= $ad
 btrghtc	= $bd
+space	= $a0
 
 *	 = $0801
 	.word (+), 10			; pointer, line number
@@ -44,8 +45,8 @@ brdloop	lda #newline			; '\n' character
 	jsr chrout			; print it
 	lda #vert			; vertical line character
 	sta firstch			; store it in the first character variable
-	lda #' '
-	sta secch			; store a space in the second character variable
+	lda #space			; space character
+	sta secch			; store it in the second character variable
 	ldx #$09
 	jsr alter			; print 9 pairs + 1 of characters specified above
 	lda #newline			; '\n' character
@@ -66,8 +67,8 @@ brdloop	lda #newline			; '\n' character
 	jsr chrout			; print a '\n'
 	lda #vert			; vertical line character
 	sta firstch			; store it in the first character variable
-	lda #' '
-	sta secch			; store a space in the second character variable
+	lda #space			; space character
+	sta secch			; store it  in the second character variable
 	ldx #$09
 	jsr alter			; print 9 pairs + 1 of characters specified above
 	lda #newline
