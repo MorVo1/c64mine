@@ -19,6 +19,8 @@ tprghtc = $ae
 btlftc	= $ad
 btrghtc	= $bd
 space	= $a0
+rvson	= $12
+rvsoff	= $92
 
 *	 = $0801
 	.word (+), 10			; pointer, line number
@@ -84,14 +86,21 @@ brdloop	lda #newline			; '\n' character
 	lda #btrghtc			; bottom-right corner character
 	jsr chrout			; print it
 	rts				; return to BASIC prompt
-alter	cpx #$00			; a subroutine for printing X pairs of characters in firstch and secch succeeded by firstch.
-	beq +				; return from subroutine if X=0
+alter	cpx #$00			; a subroutine for printing X pairs of characters in firstch and secch succeeded by firstch. Reverse every space in secch.
+	beq +				; print firstch and return from subroutine if X=0
 -	lda firstch
 	jsr chrout			; print the first character
 	lda secch
-	jsr chrout			; print the second character
+	cmp #space			; is the second character a space?
+	bne _prtsec			; no, print the second character
+	lda #rvson			; yes, load the reverse on character
+	jsr chrout			; print it
+	lda #space			; space character
+	jsr chrout			; print it
+	lda #rvsoff			; reverse off character
+_prtsec jsr chrout			; print the second character
 	dex
 	bne -				; loop
 +	lda firstch
 	jsr chrout			; print the first character
-	rts	
+	rts
