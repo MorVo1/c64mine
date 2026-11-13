@@ -1,10 +1,15 @@
 ; vim: set filetype=64tass:
 
-; variable adresses
+; KERNAL functions
 chrout	= $ffd2
+; KERNAL variables
+chmode	= $d018
+; constants
+upper	= $15
+; variable addresses
 firstch	= $fb
 secch	= $fc
-; character constants
+; PETSCII codes
 clear	= $93
 newline	= $0d
 hori	= $60
@@ -45,8 +50,8 @@ row	.macro left=0, first, second, pairs, right
 *	 = $c051
 start	lda #clear
 	jsr chrout			; clear the screen
-	lda #$15
-	sta $d018			; set uppercase mode
+	lda #upper
+	sta chmode			; set uppercase mode
 	#row tplftc, hori, dwntack, $08, tprghtc
 	ldy #$08			; Y as the number of loop iterations
 brdloop	lda #newline			; '\n' character
